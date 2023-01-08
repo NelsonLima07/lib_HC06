@@ -1,0 +1,7 @@
+../Core/Src/usr/J3_HC06.c:16:6:j3_hc06_tx	16	static
+../Core/Src/usr/J3_HC06.c:21:6:j3_hc06_rx	16	static
+../Core/Src/usr/J3_HC06.c:26:10:j3_hc06_getBoudRateInt	16	static
+../Core/Src/usr/J3_HC06.c:60:8:J3_HC06_new	24	static
+../Core/Src/usr/J3_HC06.c:79:6:J3_HC06_statusOK	24	static
+../Core/Src/usr/J3_HC06.c:96:6:J3_HC06_ini	32	static
+../Core/Src/usr/J3_HC06.c:116:6:J3_HC06_setName	32	static
