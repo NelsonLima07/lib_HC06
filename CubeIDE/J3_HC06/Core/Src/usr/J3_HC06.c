@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 #define J3_HC06_DELAY 1100 // Espera maxima da resposta.
 #define BUFFER_TX_MAX 40
 #define BUFFER_RX_MAX 40
@@ -55,6 +56,38 @@ uint32_t j3_hc06_getBoudRateInt(boudrate_t _baudRate)
     default:
       return 115200;
   }
+}
+
+const char *j3_hc06_getBoudRateString(boudrate_t _baudRate)
+{
+case br1200:
+  return "1200";
+case br2400:
+  return "2400";
+case br4800:
+  return "4800";
+case br9600:
+  return "9600";
+case br19200:
+  return "19200";
+case br38400:
+  return "38400";
+case br57600:
+  return "57600";
+case br115200:
+  return "115200";
+case br230400:
+  return "230400";
+case br460800:
+  return "460800";
+case br921600:
+  return "921600";
+case br1382400:
+  return "1382400";
+
+default:
+  return "";
+
 }
 
 THC06* J3_HC06_new(UART_HandleTypeDef* _uart, char* _nome)
@@ -127,5 +160,33 @@ bool J3_HC06_setName(THC06* _hc06)
   j3_hc06_tx(_hc06);
   j3_hc06_rx(_hc06);
   auxResult = (memcmp(_hc06->bufferRx, "OKname", _hc06->bufferSizeRx) == 0);
+  return auxResult;
+}
+
+bool J3_HC06_setBoudrate(THC06* _hc06, boudrate_t _boudRate)
+{
+  bool auxResult = false;
+  memset(_hc06->bufferTx, 0x00, BUFFER_TX_MAX);
+  strcat(_hc06->bufferTx, "AT+BOUD"); // Enviar => AT+BOUD
+  sprintf(hc06->bufferTx, "%s%d", hc06->bufferTx, _boudrate+1); // 1=1200, 2=2400...
+  _hc06->bufferSizeTx = strlen(_hc06->bufferTx);
+  _hc06->bufferSizeRx =  strlen(j3_hc06_getBoudRateString(_baudRate));
+  j3_hc06_tx(_hc06);
+  j3_hc06_rx(_hc06);
+  auxResult = (memcmp(_hc06->bufferRx, "OK", 2) == 0);
+  return auxResult;
+}
+
+bool J3_HC06_setPIN(THC06* _hc06, uint8_t _pin)
+{
+  bool auxResult = false;
+  memset(_hc06->bufferTx, 0x00, BUFFER_TX_MAX);
+  strcat(_hc06->bufferTx, "AT+PIN"); // Enviar => PIN
+  sprintf(hc06->bufferTx, "%s""%04d", hc06->bufferTx, _pin); // %04d coloca zero a esquerda ate 4 espaços
+  _hc06->bufferSizeTx = strlen(_hc06->bufferTx);
+  _hc06->bufferSizeRx =  8;
+  j3_hc06_tx(_hc06);
+  j3_hc06_rx(_hc06);
+  auxResult = (memcmp(_hc06->bufferRx, "OKsetpin", 8) == 0);
   return auxResult;
 }

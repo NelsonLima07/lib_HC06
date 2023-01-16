@@ -32,5 +32,7 @@ THC06* J3_HC06_new(UART_HandleTypeDef* _uart, char* _nome); /* Retorna um pontei
 bool J3_HC06_ini(THC06* _hc06);
 bool J3_HC06_statusOK(THC06* _hc06);
 bool J3_HC06_setName(THC06* _hc06);
+bool J3_HC06_setBoudrate(THC06* _hc06, boudrate_t _boudRate);
+bool J3_HC06_setPIN(THC06* _hc06, uint8_t _pin);
 
 #endif /* INC_USR_J3_HC06_H_ */
